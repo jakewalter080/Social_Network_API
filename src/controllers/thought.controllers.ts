@@ -90,3 +90,19 @@ export const thoughtController = {
         }
       },
     
+      async removeReaction(req: Request, res: Response) {
+        try {
+          const thought = await Thought.findByIdAndUpdate(
+            req.params.thoughtId,
+            { $pull: { reactions: { reactionId: req.params.reactionId } } },
+            { new: true }
+          );
+          if (!thought) {
+            return res.status(404).json({ message: 'No thought found with this id!' });
+          }
+          return res.json(thought);
+        } catch (err) {
+          return handleError(res, err);
+        }
+      },
+    };
