@@ -37,3 +37,16 @@ export const userController = {
           return handleError(res, err);
         }
       },
+
+      async updateUser(req: Request, res: Response) {
+        try {
+          const user = await User.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+          );
+          return res.json(user);
+        } catch (err) {
+          return handleError(res, err);
+        }
+      },
