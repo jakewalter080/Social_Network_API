@@ -73,3 +73,11 @@ export const thoughtController = {
           return handleError(res, err);
         }
       },
+
+      async addReaction(req: Request, res: Response) {
+        try {
+          const thought = await Thought.findByIdAndUpdate(
+            req.params.thoughtId,
+            { $push: { reactions: req.body } },
+            { new: true, runValidators: true }
+          );
