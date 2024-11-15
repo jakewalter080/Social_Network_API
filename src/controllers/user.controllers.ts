@@ -53,3 +53,18 @@ export const userController = {
           return handleError(res, err);
         }
       },
+
+      async deleteUser(req: Request, res: Response) {
+        try {
+          const user = await User.findById(req.params.id);
+          if (!user) {
+            return res.status(404).json({ message: 'No user found with this id!' });
+          }
+          await Thought.deleteMany({ username: user.username });
+          await user.deleteOne();
+    
+          return res.json({ message: 'User and associated thoughts deleted!' });
+        } catch (err) {
+          return handleError(res, err);
+        }
+      },
