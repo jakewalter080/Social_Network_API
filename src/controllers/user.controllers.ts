@@ -14,22 +14,17 @@ export const userController = {
       }
     },
 
-    const ThoughtSchema = new Schema<IThought>(
-        {
-          thoughtText: {
-            type: String,
-            required: true,
-            minlength: 1,
-            maxlength: 280,
-          },
-          createdAt: {
-            type: Date,
-            default: Date.now,
-            get: (timestamp: Date) => formatDate(timestamp),
-          },
-          username: {
-            type: String,
-            required: true,
-          },
-          reactions: [ReactionSchema],
-        },
+    async getUserById(req: Request, res: Response) {
+        try {
+          const user = await User.findById(req.params.id)
+            .populate('thoughts')
+            .populate('friends');
+          
+          if (!user) {
+            return res.status(404).json({ message: 'No user found with this id!' });
+          }
+          return res.json(user);
+        } catch (err) {
+          return handleError(res, err);
+        }
+      },
