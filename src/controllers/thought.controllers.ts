@@ -24,3 +24,17 @@ export const thoughtController = {
           return handleError(res, err);
         }
       },
+
+      async createThought(req: Request, res: Response) {
+        try {
+          const thought = await Thought.create(req.body);
+          await User.findByIdAndUpdate(
+            req.body.userId,
+            { $push: { thoughts: thought._id } },
+            { new: true }
+          );
+          return res.json(thought);
+        } catch (err) {
+          return handleError(res, err);
+        }
+      },
