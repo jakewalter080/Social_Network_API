@@ -12,3 +12,15 @@ export const thoughtController = {
         return handleError(res, err);
       }
     },
+
+    async getThoughtById(req: Request, res: Response) {
+        try {
+          const thought = await Thought.findById(req.params.id);
+          if (!thought) {
+            return res.status(404).json({ message: 'No thought found with this id!' });
+          }
+          return res.json(thought);
+        } catch (err) {
+          return handleError(res, err);
+        }
+      },
