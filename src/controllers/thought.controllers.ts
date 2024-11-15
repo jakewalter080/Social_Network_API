@@ -81,3 +81,12 @@ export const thoughtController = {
             { $push: { reactions: req.body } },
             { new: true, runValidators: true }
           );
+          if (!thought) {
+            return res.status(404).json({ message: 'No thought found with this id!' });
+          }
+          return res.json(thought);
+        } catch (err) {
+          return handleError(res, err);
+        }
+      },
+    
