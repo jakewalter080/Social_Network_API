@@ -68,3 +68,19 @@ export const userController = {
           return handleError(res, err);
         }
       },
+
+      async addFriend(req: Request, res: Response) {
+        try {
+          const user = await User.findByIdAndUpdate(
+            req.params.userId,
+            { $addToSet: { friends: req.params.friendId } },
+            { new: true }
+          );
+          if (!user) {
+            return res.status(404).json({ message: 'No user found with this id!' });
+          }
+          return res.json(user);
+        } catch (err) {
+          return handleError(res, err);
+        }
+      },
