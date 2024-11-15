@@ -28,3 +28,12 @@ export const userController = {
           return handleError(res, err);
         }
       },
+
+      async createUser(req: Request, res: Response) {
+        try {
+          const user = await User.create(req.body);
+          return res.json(user);
+        } catch (err) {
+          return handleError(res, err);
+        }
+      },
