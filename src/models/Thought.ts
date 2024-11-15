@@ -57,3 +57,10 @@ const ReactionSchema = new Schema<IReaction>(
           id: false,
         }
       );
+      ThoughtSchema.virtual('reactionCount').get(function () {
+        return this.reactions.length;
+      });
+      
+      const Thought = model<IThought>('Thought', ThoughtSchema);
+      
+      export default Thought;
