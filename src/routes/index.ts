@@ -1,4 +1,3 @@
-// src/routes/api/index.ts
 import { Router } from 'express';
 import userRoutes from './user.routes';
 import thoughtRoutes from './thought.routes';
@@ -10,7 +9,6 @@ router.use('/thoughts', thoughtRoutes);
 
 export default router;
 
-// src/routes/api/user.routes.ts
 import { Router } from 'express';
 import { userController } from '../../controllers/user.controllers';
 
