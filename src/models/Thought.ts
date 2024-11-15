@@ -1,6 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
 import { IThought, IReaction } from '../types';
-import { formatDate } from '../utils/dateFormat';
 
 const ReactionSchema = new Schema<IReaction>(
     {
@@ -8,59 +7,65 @@ const ReactionSchema = new Schema<IReaction>(
         type: Schema.Types.ObjectId,
         default: () => new Types.ObjectId(),
       },
-        reactionBody: {
+      reactionBody: {
         type: String,
         required: true,
         maxlength: 280,
-        },
-        username: {
+      },
+      username: {
         type: String,
         required: true,
-        },
-        createdAt: {
+      },
+      createdAt: {
         type: Date,
         default: Date.now,
-        get: (timestamp: Date) => formatDate(timestamp),
-        },
+        get: (timestamp: Date) => new Date(timestamp),
+      },
     },
     {
-        toJSON: {
+      toJSON: {
         getters: true,
-        },
-        id: false,
+      },
+      id: false,
     }
-    );
-    const ThoughtSchema = new Schema<IThought>(
-        {
-          thoughtText: {
-            type: String,
-            required: true,
-            minlength: 1,
-            maxlength: 280,
-          },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-          get: (timestamp: Date) => formatDate(timestamp),
-        },
-        username: {
-            type: String,
-            required: true,
-          },
-          reactions: [ReactionSchema],
-        },
-        {
-          toJSON: {
-            virtuals: true,
-            getters: true,
-          },
-          id: false,
-        }
-      );
-      ThoughtSchema.virtual('reactionCount').get(function () {
-        return this.reactions.length;
-      });
-      
-      const Thought = model<IThought>('Thought', ThoughtSchema);
-      
-      export default Thought;
+  );
+const ThoughtSchema = new Schema<IThought>(
+    {
+      thoughtText: {
+        type: String,
+        required: true,
+        minlength: 1,
+        maxlength: 280,
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (timestamp: Date) => new Date(timestamp),
+      },
+      username: {
+        type: String,
+        required: true,
+      },
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+      },
+      reactions: [ReactionSchema],
+    },
+    {
+      toJSON: {
+        virtuals: true,
+        getters: true,
+      },
+      id: false,
+    }
+  );
+
+  ThoughtSchema.virtual('reactionCount').get(function () {
+    return this.reactions.length;
+  });
+
+  const Thought = model<IThought>('Thought', ThoughtSchema);
+
+  export default Thought;

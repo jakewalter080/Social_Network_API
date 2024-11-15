@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { User, Thought } from '../models';
+import User from '../models/User';
+import Thought from '../models/Thought';
 import { handleError } from '../utils/errorHandler';
 
 export const userController = {

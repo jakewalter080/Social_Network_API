@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { Thought, User } from '../models';
+import Thought from '../models/Thought';
+import User from '../models/User';
 import { handleError } from '../utils/errorHandler';
 
 export const thoughtController = {
-    // Get all thoughts
     async getAllThoughts(_req: Request, res: Response) {
       try {
         const thoughts = await Thought.find().sort({ createdAt: -1 });
