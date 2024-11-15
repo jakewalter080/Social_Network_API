@@ -39,18 +39,3 @@ export const thoughtController = {
         }
       },
 
-      async updateThought(req: Request, res: Response) {
-        try {
-          const thought = await Thought.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true, runValidators: true }
-          );
-          if (!thought) {
-            return res.status(404).json({ message: 'No thought found with this id!' });
-          }
-          return res.json(thought);
-        } catch (err) {
-          return handleError(res, err);
-        }
-      },
