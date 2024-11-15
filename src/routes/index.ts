@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import userRoutes from './user.routes';
-import thoughtRoutes from './thought.routes';
+import userRoutes from './api/user.routes';
+import thoughtRoutes from './api/thought.routes';
 
 const router = Router();
 
@@ -9,7 +9,3 @@ router.use('/thoughts', thoughtRoutes);
 
 export default router;
 
-import { Router } from 'express';
-import { userController } from '../../controllers/user.controllers';
-
-const router = Router();
