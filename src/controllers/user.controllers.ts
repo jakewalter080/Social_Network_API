@@ -69,11 +69,11 @@ export const userController = {
         }
       },
 
-      async addFriend(req: Request, res: Response) {
+      async removeFriend(req: Request, res: Response) {
         try {
           const user = await User.findByIdAndUpdate(
             req.params.userId,
-            { $addToSet: { friends: req.params.friendId } },
+            { $pull: { friends: req.params.friendId } },
             { new: true }
           );
           if (!user) {
@@ -84,3 +84,4 @@ export const userController = {
           return handleError(res, err);
         }
       },
+    };
