@@ -45,6 +45,9 @@ export const userController = {
             req.body,
             { new: true, runValidators: true }
           );
+          if (!user) {
+            return res.status(404).json({ message: 'No user found with this id!' });
+          }
           return res.json(user);
         } catch (err) {
           return handleError(res, err);
